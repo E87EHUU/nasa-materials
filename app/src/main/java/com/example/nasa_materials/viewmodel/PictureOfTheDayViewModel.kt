@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PictureOfTheDayViewModel(private val liveData: MutableLiveData<AppState>,
+class PictureOfTheDayViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>(),
                                private val repositoryImpl:RepositoryImpl= RepositoryImpl()):
     ViewModel() {
 
