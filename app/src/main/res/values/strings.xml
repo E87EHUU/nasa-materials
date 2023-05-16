@@ -12,6 +12,10 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="day_before_yesterday">Day before yesterday</string>
+    <string name="hint">hint</string>
+    <string name="input_text">Ввести текст</string>
+    <string name="symbols_number">количество символов</string>
+
 
 
 </resources>

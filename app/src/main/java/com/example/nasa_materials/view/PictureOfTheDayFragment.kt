@@ -1,5 +1,7 @@
 package com.example.nasa_materials.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,8 +52,15 @@ class PictureOfTheDayFragment : Fragment() {
         binding.chipYesterday.setOnClickListener {
             Toast.makeText(requireContext(),"Yesterday",Toast.LENGTH_SHORT).show()}
         binding.chipDayBeforeYesterday.setOnClickListener {
-            Toast.makeText(requireContext(),"Day Before Yesterday",Toast.LENGTH_SHORT).show()}
+            Toast.makeText(requireContext(),"Day Before Yesterday",Toast.LENGTH_SHORT).show()
+        }
 
+        binding.inputLayout.setEndIconOnClickListener{
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://en.wikipedia.org/wiki/${binding.input.text.toString()}")
+            })
+
+        }
     }
 
     private fun renderData(appState: AppState) {
