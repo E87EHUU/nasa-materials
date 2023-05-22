@@ -1,18 +1,17 @@
 package com.example.nasa_materials.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nasa_materials.BuildConfig
-import com.example.nasa_materials.model.PictureOfTheDayResponseData
-import com.example.nasa_materials.model.RepositoryImpl
-import com.example.nasa_materials.view.PictureOfTheDayFragment
+import com.example.nasa_materials.model.entities.PictureOfTheDayResponseData
+import com.example.nasa_materials.model.repository.RepositoryImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class PictureOfTheDayViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>(),
-                               private val repositoryImpl:RepositoryImpl= RepositoryImpl()):
+                               private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+):
     ViewModel() {
 
     fun getLiveData():MutableLiveData<AppState> {

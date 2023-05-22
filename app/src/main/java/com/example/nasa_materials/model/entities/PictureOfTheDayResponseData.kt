@@ -1,4 +1,4 @@
-package com.example.nasa_materials.model
+package com.example.nasa_materials.model.entities
 
 
 import com.google.gson.annotations.SerializedName
