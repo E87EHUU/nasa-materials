@@ -1,45 +1,60 @@
 package com.example.nasa_materials.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.nasa_materials.BuildConfig
-import com.example.nasa_materials.model.entities.PictureOfTheDayResponseData
-import com.example.nasa_materials.model.repository.RepositoryImpl
+import com.example.nasa_materials.BuildConfig.NASA_API_KEY
+import com.example.nasa_materials.model.entities.PictureOfDayDTO
+import com.example.nasa_materials.model.repository.PODRetrofitImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
 
-class PictureOfTheDayViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>(),
-                               private val repositoryImpl: RepositoryImpl = RepositoryImpl()
-):
-    ViewModel() {
+class PictureOfTheDayViewModel(
+    private val liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val retrofitImpl: PODRetrofitImpl = PODRetrofitImpl()
 
-    fun getLiveData():MutableLiveData<AppState> {
-        return liveData
+) : ViewModel() {
+
+    fun getData(): LiveData<AppState> {
+        sendServerRequest(null)
+        return liveDataForViewToObserve
     }
 
-    fun sendRequest(){
-        liveData.postValue(AppState.Loading)
-        repositoryImpl.getPictureofTheDayAPI().getPictureOfTheDay(BuildConfig.NASA_API_KEY).enqueue(callback)
-    }
+    private fun sendServerRequest(date: LocalDate?) {
+        liveDataForViewToObserve.value = AppState.Loading(null)
 
-    private val callback = object : Callback<PictureOfTheDayResponseData>{
-        override fun onResponse(
-            call: Call<PictureOfTheDayResponseData>,
-            response: Response<PictureOfTheDayResponseData>
-        ) {
-            if(response.isSuccessful) {
-                liveData.postValue(AppState.Success(response.body()!!))
-            } else {
-                liveData.postValue(AppState.Error(throw IllegalAccessException("Что-то пошло не так")))
-            }
-            response.body()
+        val apiKey: String = NASA_API_KEY
+
+        if (apiKey.isBlank()) {
+            liveDataForViewToObserve.value = AppState.Error(Throwable("You need API key"))
+        } else {
+            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey).enqueue(object :
+                Callback<PictureOfDayDTO> {
+                override fun onResponse(
+                    call: Call<PictureOfDayDTO>,
+                    response: Response<PictureOfDayDTO>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        liveDataForViewToObserve.value = AppState.Success(response.body()!!)
+                    } else {
+                        val message = response.message()
+
+                        if (message.isNullOrEmpty()) {
+                            liveDataForViewToObserve.value =
+                                AppState.Error(Throwable("Unidentified error"))
+                        } else {
+                            liveDataForViewToObserve.value =
+                                AppState.Error(Throwable(message))
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<PictureOfDayDTO>, t: Throwable) {
+                    liveDataForViewToObserve.value = AppState.Error(t)
+                }
+            })
         }
-
-        override fun onFailure(call: Call<PictureOfTheDayResponseData>, t: Throwable) {
-            TODO("Not yet implemented")
-        }
     }
-    }
-
-
+}
