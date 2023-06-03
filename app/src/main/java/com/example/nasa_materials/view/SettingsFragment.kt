@@ -40,6 +40,13 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        init()
+
+        setThemeWhenClickButton()
+    }
+
+    private fun setThemeWhenClickButton() {
+
         with(binding) {
             themeBaseButton.setOnClickListener {
                 settingsViewModel.setTheme(THEME_BASE)
@@ -63,9 +70,11 @@ class SettingsFragment : Fragment() {
                     THEME_BASE -> {
                         binding.themeBaseButton.isChecked = true
                     }
+
                     THEME_GREEN -> {
                         binding.themeGreenButton.isChecked = true
                     }
+
                     THEME_SAND -> {
                         binding.themeSandButton.isChecked = true
                     }
@@ -79,6 +88,7 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
     companion object {
         fun newInstance() = SettingsFragment()
     }

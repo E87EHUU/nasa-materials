@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
+        initThemePref()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(
                 R.id.container,
@@ -28,13 +28,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun init() {
+    private fun initThemePref() {
         val themeStorage = ShredPrefSave(this.application)
         themeStorage.themeID.let {
             when (it) {
-                0 -> setTheme(R.style.BaseTheme)
-                1 -> setTheme(R.style.GreenTheme)
-                2 -> setTheme(R.style.SandTheme)
+                0 -> {
+                    setTheme(R.style.BaseTheme)
+                    window.statusBarColor = resources.getColor(R.color.colorPrimary)
+                }
+
+                1 -> {
+                    setTheme(R.style.GreenTheme)
+                    window.statusBarColor = resources.getColor(R.color.greenPrimaryColor)
+                }
+
+                2 -> {
+                    setTheme(R.style.SandTheme)
+                    window.statusBarColor = resources.getColor(R.color.sandPrimaryColor)
+                }
             }
         }
     }

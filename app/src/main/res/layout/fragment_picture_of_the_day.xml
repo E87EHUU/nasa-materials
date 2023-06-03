@@ -24,7 +24,7 @@
                 app:boxBackgroundColor="?colorOnPrimary"
                 app:boxStrokeColor="@color/black"
                 app:counterEnabled="true"
-                app:counterMaxLength="10"
+                app:counterMaxLength="41"
                 app:counterOverflowTextColor="@color/design_default_color_error"
                 app:counterTextColor="@color/black"
                 app:endIconCheckable="true"
@@ -73,6 +73,7 @@
                     app:srcCompat="@drawable/ic_no_photo_vector" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     <include layout="@layout/bottom_sheet_layout" />
 
     <!-- fabCradleMargin вместо fabCradleDiameter -->
@@ -81,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="?colorPrimary"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="5dp"
         app:fabCradleRoundedCornerRadius="30dp"
@@ -97,7 +98,7 @@
         android:contentDescription="@string/fab"
         app:layout_anchor="@id/bottom_app_bar"
         app:srcCompat="@drawable/ic_plus_fab"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

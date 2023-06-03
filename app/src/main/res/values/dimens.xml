@@ -1,4 +1,4 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="bottom_sheep_container_height">720dp</dimen>
+    <dimen name="bottom_sheep_container_height">680dp</dimen>
 </resources>
