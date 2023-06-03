@@ -6,7 +6,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.nasa_materials.R
 import com.example.nasa_materials.databinding.ActivityMainBinding
-import com.example.nasa_materials.view.PictureOfTheDayFragment
+import com.example.nasa_materials.model.repository.ShredPrefSave
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +19,23 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if(savedInstanceState==null) {
-            supportFragmentManager.beginTransaction().replace(R.id.container,
+        init()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().replace(
+                R.id.container,
                 PictureOfTheDayFragment.newInstance()
             ).commit()
+        }
+    }
+
+    private fun init() {
+        val themeStorage = ShredPrefSave(this.application)
+        themeStorage.themeID.let {
+            when (it) {
+                0 -> setTheme(R.style.BaseTheme)
+                1 -> setTheme(R.style.GreenTheme)
+                2 -> setTheme(R.style.SandTheme)
+            }
         }
     }
 }

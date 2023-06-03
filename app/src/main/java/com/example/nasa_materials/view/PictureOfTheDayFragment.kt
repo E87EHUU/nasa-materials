@@ -81,7 +81,7 @@ class PictureOfTheDayFragment : Fragment() {
         when (item.itemId) {
             R.id.app_bar_fav -> toast("Favourite")
             R.id.app_bar_settings -> activity?.supportFragmentManager?.beginTransaction()
-                ?.add(R.id.container, ChipsFragment.newInstance())
+                ?.add(R.id.container, SettingsFragment.newInstance())
                 ?.addToBackStack(null)
                 ?.commit()
 
