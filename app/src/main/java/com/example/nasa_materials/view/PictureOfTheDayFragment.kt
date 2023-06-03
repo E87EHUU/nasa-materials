@@ -3,12 +3,22 @@ package com.example.nasa_materials.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import coil.load
 import com.example.nasa_materials.R
 import com.example.nasa_materials.R.drawable
@@ -24,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PictureOfTheDayFragment : Fragment() {
 
+    private var isZoomed = false
     private var _binding: FragmentPictureOfTheDayBinding? = null
     private val binding get() = _binding!!
 
@@ -67,9 +78,11 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.app_bar_fav -> toast("Favourite")
-            R.id.app_bar_settings -> activity?.supportFragmentManager?.beginTransaction()?.add(R.id.container, ChipsFragment.newInstance())
+            R.id.app_bar_settings -> activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.container, ChipsFragment.newInstance())
                 ?.addToBackStack(null)
                 ?.commit()
+
             android.R.id.home -> {
                 activity?.let {
                     BottomNavigationDrawerFragment().show(it.supportFragmentManager, "tag")
@@ -98,9 +111,11 @@ class PictureOfTheDayFragment : Fragment() {
                     renderBottomSheet(serverResponseData)
                 }
             }
+
             is AppState.Loading -> {
                 //TODO
             }
+
             is AppState.Error -> {
                 toast(data.error.message)
             }
@@ -132,15 +147,46 @@ class PictureOfTheDayFragment : Fragment() {
                 isMain = false
                 binding.bottomAppBar.navigationIcon = null
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.fab.setImageDrawable(ContextCompat.getDrawable(context, drawable.ic_back_fab))
+                binding.fab.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        drawable.ic_back_fab
+                    )
+                )
                 binding.bottomAppBar.replaceMenu(menu.menu_bottom_bar_other_screen)
             } else {
                 isMain = true
                 binding.bottomAppBar.navigationIcon =
                     ContextCompat.getDrawable(context, drawable.ic_hamburger_menu_bottom_bar)
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.fab.setImageDrawable(ContextCompat.getDrawable(context, drawable.ic_plus_fab))
+                binding.fab.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        drawable.ic_plus_fab
+                    )
+                )
                 binding.bottomAppBar.replaceMenu(menu.menu_bottom_bar)
+            }
+        }
+    }
+
+    private fun animatePhotoClick() {
+        binding.imageView.setOnClickListener {
+            isZoomed = !isZoomed
+            TransitionManager.beginDelayedTransition(
+                binding.root,
+                TransitionSet()
+                    .addTransition(ChangeBounds())
+                    .addTransition(ChangeImageTransform())
+            )
+
+            val params: ViewGroup.LayoutParams = binding.imageView.layoutParams
+            params.height =
+                if (isZoomed) ViewGroup.LayoutParams.MATCH_PARENT else ViewGroup.LayoutParams.WRAP_CONTENT
+            binding.imageView.apply {
+                layoutParams = params
+                scaleType =
+                    if (isZoomed) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_XY
             }
         }
     }

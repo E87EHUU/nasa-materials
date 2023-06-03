@@ -10,5 +10,6 @@
     <string name="chip_text_today">Today</string>
     <string name="chip_text_day_before_yesterday">Day before yesterday</string>
     <string name="chip_text_yesterday">Yesterday</string>
+    <string name="fab">fab</string>
 
 </resources>
