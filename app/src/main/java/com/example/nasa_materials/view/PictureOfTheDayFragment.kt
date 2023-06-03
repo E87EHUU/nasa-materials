@@ -63,6 +63,8 @@ class PictureOfTheDayFragment : Fragment() {
             })
         }
         setBottomAppBar(view)
+        enlargePictureFirst()
+        animatePhotoClick()
     }
 
     override fun onDestroyView() {
@@ -170,6 +172,12 @@ class PictureOfTheDayFragment : Fragment() {
         }
     }
 
+    private fun enlargePictureFirst() {
+        binding.imageView.apply {
+            scaleType = ImageView.ScaleType.CENTER
+        }
+    }
+
     private fun animatePhotoClick() {
         binding.imageView.setOnClickListener {
             isZoomed = !isZoomed
@@ -180,13 +188,10 @@ class PictureOfTheDayFragment : Fragment() {
                     .addTransition(ChangeImageTransform())
             )
 
-            val params: ViewGroup.LayoutParams = binding.imageView.layoutParams
-            params.height =
-                if (isZoomed) ViewGroup.LayoutParams.MATCH_PARENT else ViewGroup.LayoutParams.WRAP_CONTENT
+
             binding.imageView.apply {
-                layoutParams = params
                 scaleType =
-                    if (isZoomed) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_XY
+                    if (isZoomed) ImageView.ScaleType.CENTER_INSIDE else ImageView.ScaleType.CENTER_CROP
             }
         }
     }
