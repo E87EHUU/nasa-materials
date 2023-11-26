@@ -1,26 +1,39 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Nasamaterials" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
-        <item name="colorPrimary">#FF0000</item>
-        <item name="colorOnSurface">#FF0000</item>
-        <item name="colorOnSecondaryContainer">#FF0000</item>
-        <item name="colorPrimaryContainer">#FF0000</item>
-
-        <item name="chipStyle">@style/MyChipStyle</item>
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/color_gray</item>
+        <item name="colorOnPrimary">@color/light_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/red_orange</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorAccent">@color/dark_orange</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/pixelboy</item>
     </style>
 
+    <!--    "Песочная" тема-->
+    <style name="SandTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/sandPrimaryColor</item>
+        <item name="colorPrimaryVariant">@color/sandPrimaryDarkColor</item>
+        <item name="colorOnPrimary">@color/sandPrimaryLightColor</item>
+        <item name="colorAccent">@color/sandAccentColor</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <!--   Стиль, для среза краев - будет использована только в песочной теме. -->
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.M3.Sys.Shape.Corner.Small</item>
 
-    <!--<style name="MyChipStyle" parent="Widget.Material3.Chip.Suggestion">
-        <item name="chipBackgroundColor">#AFE1E7</item>
-    </style>-->
-
-    <style name="MyChipStyle" parent="Widget.Material3.Chip.Suggestion">
-        <item name="chipBackgroundColor">@drawable/my_selector_backgroundchip</item>
-        <item name="rippleColor">#8BC34A</item>
     </style>
 
-    <style name="Theme.Nasamaterials" parent="Base.Theme.Nasamaterials" />
+    <!-- "Каким был марс раньше" тема-->
+    <style name="GreenTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/greenPrimaryColor</item>
+        <item name="colorPrimaryVariant">@color/greenPrimaryDarkColor</item>
+        <item name="colorOnPrimary">@color/greenPrimaryLightColor</item>
+        <item name="colorAccent">@color/greenAccentColor</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 </resources>
